@@ -1,10 +1,9 @@
 package com.restaurantbusiness.store.restaurantbusiness.service;
 
-import com.restaurantbusiness.store.restaurantbusiness.dto.request.FoodRequestDTO;
 import com.restaurantbusiness.store.restaurantbusiness.dto.request.OrderRequestDTO;
-import com.restaurantbusiness.store.restaurantbusiness.dto.response.FoodResponseDTO;
 import com.restaurantbusiness.store.restaurantbusiness.dto.response.OrderResponseDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderService {
@@ -15,5 +14,11 @@ public interface OrderService {
 
      OrderResponseDTO updateById(Long id, OrderRequestDTO dto);
 
-     List<OrderResponseDTO> findAll();
+     List<OrderResponseDTO> findAll(LocalDate localDate);
+
+     List<OrderResponseDTO> findOrdersByCustomerId(Long customerId);
+
+     Long findTotalSalesCurrentDay();
+
+     LocalDate findMaxSalesDay(LocalDate fromDate, LocalDate toDate);
 }

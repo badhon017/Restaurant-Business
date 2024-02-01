@@ -8,7 +8,9 @@ import com.restaurantbusiness.store.restaurantbusiness.repository.OrderRepositor
 import com.restaurantbusiness.store.restaurantbusiness.service.OrderService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -42,8 +44,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponseDTO> findAll() {
-        List<Order> orders = orderRepository.findAll();
+    public List<OrderResponseDTO> findAll(LocalDate localDate) {
+        List<Order> orders;
+        if(Objects.nonNull(localDate)) {
+            orders = orderRepository.findAll(localDate);
+        } else {
+            orders = orderRepository.findAll();
+        }
         return orders.stream().map(OrderMapper::toDto).toList();
+    }
+
+    @Override
+    public List<OrderResponseDTO> findOrdersByCustomerId(Long customerId) {
+        List<Order> orders = orderRepository.findOrderByCustomerId(customerId);
+        return orders.stream()
+                .map(OrderMapper::toDto).toList();
+    }
+
+    @Override
+    public Long findTotalSalesCurrentDay() {
+        return orderRepository.findTotalSalesOfCurrentDay(LocalDate.now());
+    }
+
+    @Override
+    public LocalDate findMaxSalesDay(LocalDate fromDate, LocalDate toDate) {
+        List<Order> orders = orderRepository.findOrdersBetweenDateRange(fromDate, toDate);
+        Long maxSale = 0L;
+        LocalDate date = LocalDate.now();
+        for (Order order : orders) {
+            Long sale = orderRepository.findTotalSalesOfCurrentDay(order.getLocalDate());
+            if (sale > maxSale) {
+                maxSale = sale;
+                date = order.getLocalDate();
+            }
+        }
+        return date;
     }
 }

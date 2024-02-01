@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,8 +39,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponseDTO>> findAll() {
-        List<OrderResponseDTO> orders = orderService.findAll();
+    public ResponseEntity<List<OrderResponseDTO>> findAll(@RequestParam LocalDate localDate) {
+        List<OrderResponseDTO> orders = orderService.findAll(localDate);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -47,5 +49,22 @@ public class OrderController {
                                                           @RequestBody OrderRequestDTO dto) {
         OrderResponseDTO orderDTO = orderService.updateById(id, dto);
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+    }
+    @GetMapping("/orders/customer/{customerId}")
+    public ResponseEntity<List<OrderResponseDTO>> findOrdersByCustomerId(@PathVariable("customerId") Long customerId) {
+        List<OrderResponseDTO> orderResponseDTOS = orderService.findOrdersByCustomerId(customerId);
+        return new ResponseEntity<>(orderResponseDTOS, HttpStatus.OK);
+    }
+    @GetMapping("/orders/total-sales")
+    public ResponseEntity<Long> findTotalSalesOfCurrentDay() {
+        Long totalSalesCurrentDay = orderService.findTotalSalesCurrentDay();
+        return new ResponseEntity<>(totalSalesCurrentDay, HttpStatus.OK);
+    }
+
+    @GetMapping("/orders/max-sales-day")
+    public ResponseEntity<LocalDate> findMaxSalesDay(@RequestParam("fromDate") LocalDate fromDate,
+                                                     @RequestParam("toDate") LocalDate toDate) {
+        LocalDate maxSalesDay = orderService.findMaxSalesDay(fromDate, toDate);
+        return new ResponseEntity<>(maxSalesDay, HttpStatus.OK);
     }
 }
