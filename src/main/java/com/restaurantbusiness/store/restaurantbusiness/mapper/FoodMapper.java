@@ -14,6 +14,7 @@ public class FoodMapper {
                 .name(food.getName())
                 .price(food.getPrice())
                 .stock(food.getStock())
+                .order(food.getOrder())
                 .build();
     }
     public static Food toEntity(FoodRequestDTO dto) {
@@ -21,6 +22,7 @@ public class FoodMapper {
         food.setName(dto.getName());
         food.setPrice(dto.getPrice());
         food.setStock(dto.getStock());
+        food.setOrder(dto.getOrder());
         return food;
     }
 }

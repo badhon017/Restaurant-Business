@@ -1,5 +1,6 @@
 package com.restaurantbusiness.store.restaurantbusiness.dto.request;
 
+import com.restaurantbusiness.store.restaurantbusiness.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +21,6 @@ public class FoodRequestDTO {
     private Long price;
 
     private Long stock;
+
+    private Order order;
 }

@@ -10,7 +10,6 @@ public class OrderMapper {
     public static OrderResponseDTO toDto(Order order) {
         return OrderResponseDTO.builder()
                 .customerId(order.getCustomerId())
-                .foods(order.getFoods())
                 .localDate(order.getLocalDate().toString())
                 .bill(order.getBill())
                 .build();
@@ -18,7 +17,6 @@ public class OrderMapper {
     public static Order toEntity(OrderRequestDTO dto) {
         Order order = new Order();
         order.setCustomerId(dto.getCustomerId());
-        order.setFoods(dto.getFoods());
         order.setLocalDate(dto.getLocalDate());
         order.setBill(dto.getBill());
         return order;

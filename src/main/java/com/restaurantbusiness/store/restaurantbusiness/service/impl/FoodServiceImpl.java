@@ -39,6 +39,7 @@ public class FoodServiceImpl implements FoodService {
         food.setName(dto.getName());
         food.setPrice(dto.getPrice());
         food.setStock(dto.getStock());
+        food.setOrder(dto.getOrder());
         return FoodMapper.toDto(foodRepository.save(food));
     }
 

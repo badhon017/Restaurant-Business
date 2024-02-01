@@ -36,7 +36,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Order not found with provided id"));
         order.setCustomerId(dto.getCustomerId());
-        order.setFoods(dto.getFoods());
         order.setLocalDate(dto.getLocalDate());
         order.setBill(dto.getBill());
         return OrderMapper.toDto(orderRepository.save(order));
